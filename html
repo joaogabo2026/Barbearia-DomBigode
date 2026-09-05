@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Bigode | Agendamento & Gestão</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Ícones e Fontes Premium -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Fundo com a foto real da barbearia -->
+    <div class="bg-home"></div>
+
+    <!-- Cabeçalho Principal (Logo Centralizada e Marcante) -->
+    <header class="main-header">
+        <div class="header-center-logo">
+            <img src="logo.png" alt="Dom Bigode Barbearia" class="logo-img-large" onerror="this.src='https://ui-avatars.com/api/?name=Dom+Bigode&background=1a1a1a&color=e6b35c&size=150'">
+        </div>
+        <div class="header-right-actions">
+            <a href="https://maps.google.com/?q=Teresina+PI" target="_blank" class="icon-btn" title="Localização"><i class="fa-solid fa-map-location-dot"></i></a>
+            <a href="https://www.instagram.com/dombigode91/" target="_blank" class="icon-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+    </header>
+
+    <!-- Separador Temático -->
+    <div class="brand-separator">
+        <hr><i class="fa-solid fa-scissors"></i><hr>
+    </div>
+
+    <!-- Abas Principais (Cliente) -->
+    <div class="main-tabs" id="clientTabsNav">
+        <button class="tab-btn active" id="tabAgendar">Agendar</button>
+        <button class="tab-btn" id="tabHistorico">Histórico</button>
+    </div>
+
+    <!-- TELA 1: AGENDAR -->
+    <main id="viewAgendar">
+        <nav class="category-nav">
+            <a href="#destaques" class="cat-link active">Mais Pedidos</a>
+            <a href="#combos" class="cat-link">Combos</a>
+            <a href="#cabelo" class="cat-link">Cabelo</a>
+            <a href="#estetica" class="cat-link">Estética</a>
+        </nav>
+
+        <div class="services-container" id="dynamicServicesContainer">
+            <!-- Os serviços serão injetados dinamicamente via JS (permitindo edição pelo painel) -->
+        </div>
+    </main>
+
+    <!-- TELA 2: HISTÓRICO E LOGIN CLIENTE -->
+    <main id="viewHistorico" style="display: none;">
+        <div class="historico-container">
+            <div id="areaLogin" class="login-box">
+                <i class="fa-solid fa-user-circle login-icon"></i>
+                <h3>Acessar Meus Agendamentos</h3>
+                <p>Digite seu WhatsApp para acessar seu histórico.</p>
+                <input type="tel" id="loginWpp" placeholder="Ex: 86999999999" class="input-modern">
+                <div id="areaCadastroNovo" style="display: none;">
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--gold);">Parece que é seu primeiro acesso! Qual o seu nome?</p>
+                    <input type="text" id="loginNome" placeholder="Seu Nome Completo" class="input-modern">
+                </div>
+                <button class="btn-gold" onclick="fazerLogin()">Acessar <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div id="areaMeusAgendamentos" style="display: none;">
+                <div class="header-historico">
+                    <h3 id="boasVindasNome">Olá, Cliente!</h3>
+                    <button onclick="sairConta()" class="btn-sair">Sair</button>
+                </div>
+                <div id="listaHistorico"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TELA 3: PAINEL ADMINISTRATIVO (SaaS Completo) -->
+    <main id="viewAdminDashboard" style="display: none; padding: 1.5rem; max-width: 900px; margin: 0 auto; flex: 1;">
+        <div class="header-historico">
+            <div>
+                <h3 style="color: var(--gold); font-family: var(--font-title); font-style: italic;">Painel de Gestão Dom Bigode</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Controle Financeiro, Equipe e Produtos</p>
+            </div>
+            <button onclick="sairAdmin()" class="btn-sair">Sair do Painel</button>
+        </div>
+
+        <!-- Sub-abas do Painel Admin -->
+        <div class="admin-sub-tabs">
+            <button class="admin-sub-btn active" onclick="trocarAbaAdmin('financeiro')" id="subTabFinanceiro">Financeiro</button>
+            <button class="admin-sub-btn" onclick="trocarAbaAdmin('equipe')" id="subTabEquipe">Equipe</button>
+            <button class="admin-sub-btn" onclick="trocarAbaAdmin('servicos')" id="subTabServicos">Serviços</button>
+            <button class="admin-sub-btn" onclick="trocarAbaAdmin('produtos')" id="subTabProdutos">Produtos & Bebidas</button>
+        </div>
+
+        <!-- SEÇÃO 1: FINANCEIRO -->
+        <div id="adminSecFinanceiro" class="admin-section-content">
+            <!-- Saldos Consolidados por Período -->
+            <h4 style="margin-bottom: 1rem; color: var(--gold);">Resumo Geral da Barbearia</h4>
+            <div class="financial-grid">
+                <div class="summary-card">
+                    <p>Faturamento Hoje</p>
+                    <h2 id="fatHoje">R$ 0</h2>
+                </div>
+                <div class="summary-card">
+                    <p>Últimos 7 Dias</p>
+                    <h2 id="fat7Dias">R$ 0</h2>
+                </div>
+                <div class="summary-card">
+                    <p>Último Mês (30d)</p>
+                    <h2 id="fat30Dias">R$ 0</h2>
+                </div>
+                <div class="summary-card">
+                    <p>Último Ano</p>
+                    <h2 id="fatAno">R$ 0</h2>
+                </div>
+            </div>
+
+            <h4 style="margin: 2rem 0 1rem 0; color: var(--gold);">Desempenho por Profissional (Selecione)</h4>
+            <div class="admin-barber-selector" id="adminBarberSelector">
+                <!-- Preenchido dinamicamente com os barbeiros -->
+            </div>
+
+            <!-- Detalhes do Barbeiro Selecionado -->
+            <div id="barberDetailContainer" style="display: none; margin-top: 1.5rem; background: var(--surface-color); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 id="detalheBarberNome" style="color: var(--gold);">Barbeiro</h3>
+                    <span id="detalheBarberTotal" style="font-size: 1.1rem; font-weight: bold;">Total: R$ 0</span>
+                </div>
+
+                <h5 style="margin-bottom: 0.5rem;">Serviços Concluídos</h5>
+                <div id="listaConcluidosBarber">
+                    <p style="color: #888; font-size: 0.9rem;">Nenhum serviço concluído registrado para este profissional.</p>
+                </div>
+
+                <!-- Acordeão / Ler Mais para Cancelados -->
+                <div class="cancelados-accordion-container" style="margin-top: 1.5rem;">
+                    <button class="btn-toggle-cancelados" onclick="toggleCancelados()">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Ver Serviços Cancelados <i class="fa-solid fa-chevron-down" id="arrowCancel"></i>
+                    </button>
+                    <div id="listaCanceladosBarber" class="cancelados-content" style="display: none; margin-top: 10px;">
+                        <p style="color: #888; font-size: 0.9rem;">Nenhum cancelamento registrado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 2: EQUIPE (BARBEIROS) -->
+        <div id="adminSecEquipe" class="admin-section-content" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h4 style="color: var(--gold);">Gerenciar Equipe de Barbeiros</h4>
+                <button class="btn-gold" style="padding: 0.6rem 1rem; font-size: 0.9rem; margin-top:0;" onclick="abrirModalBarbeiro()">+ Novo Barbeiro</button>
+            </div>
+            <div id="listaEquipeAdmin"></div>
+        </div>
+
+        <!-- SEÇÃO 3: SERVIÇOS -->
+        <div id="adminSecServicos" class="admin-section-content" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h4 style="color: var(--gold);">Gerenciar Catálogo de Serviços</h4>
+                <button class="btn-gold" style="padding: 0.6rem 1rem; font-size: 0.9rem; margin-top:0;" onclick="abrirModalServico()">+ Novo Serviço</button>
+            </div>
+            <div id="listaServicosAdmin"></div>
+        </div>
+
+        <!-- SEÇÃO 4: PRODUTOS E BEBIDAS -->
+        <div id="adminSecProdutos" class="admin-section-content" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h4 style="color: var(--gold);">Controle de Produtos & Bebidas</h4>
+                <button class="btn-gold" style="padding: 0.6rem 1rem; font-size: 0.9rem; margin-top:0;" onclick="abrirModalProduto()">+ Registrar Produto</button>
+            </div>
+            <div id="listaProdutosAdmin">
+                <p style="text-align: center; color: #888; margin-top: 2rem;">Nenhum produto cadastrado no balcão.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE AGENDAMENTO -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-top-logo">
+                <img src="logo.png" alt="Dom Bigode" class="logo-img-modal" onerror="this.src='https://ui-avatars.com/api/?name=Dom+Bigode&background=1a1a1a&color=e6b35c&size=100'">
+            </div>
+            <div class="modal-header">
+                <h3 id="modalServiceName">Nome do Serviço</h3>
+                <button class="close-btn" onclick="fecharModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="step1" class="booking-step">
+                    <h4>1. Escolha o Dia</h4>
+                    <div class="dates-grid" id="datesGrid"></div>
+                </div>
+                <div id="step2" class="booking-step" style="display: none;">
+                    <h4>2. Escolha o Profissional</h4>
+                    <div class="professionals-grid" id="professionalsGridModal"></div>
+                </div>
+                <div id="step3" class="booking-step" style="display: none;">
+                    <h4>3. Escolha o Horário</h4>
+                    <div class="times-grid" id="timesGrid"></div>
+                </div>
+                <div id="step4" class="booking-step" style="display: none;">
+                    <h4>4. Resumo e Confirmação</h4>
+                    <div class="summary-card">
+                        <p><strong>Serviço:</strong> <span id="resumoServico"></span></p>
+                        <p><strong>Profissional:</strong> <span id="resumoProfissional"></span></p>
+                        <p><strong>Data/Hora:</strong> <span id="resumoData"></span> às <span id="resumoHora"></span></p>
+                        <p><strong>Total:</strong> <span id="resumoValor"></span></p>
+                    </div>
+                    <div id="formNovoCliente" class="user-form">
+                        <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" class="input-modern" required>
+                        <input type="tel" id="telefoneCliente" placeholder="Seu WhatsApp (Somente números)" class="input-modern" required>
+                    </div>
+                    <div id="avisoLogado" style="display: none; text-align: center; margin-bottom: 15px; color: var(--gold);">
+                        <p>Agendando como: <strong id="nomeClienteLogado"></strong></p>
+                    </div>
+                    <button class="btn-gold" style="width: 100%;" onclick="finalizarAgendamento()">Confirmar Agendamento <i class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LOGIN DO PAINEL MESTRE (PainelADM) -->
+    <div id="adminLoginModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; margin-top: 15vh;">
+            <div class="modal-header">
+                <h3>Painel Mestre</h3>
+                <button class="close-btn" onclick="fecharLoginAdmin()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Autenticação restrita da barbearia:</p>
+                <label style="font-size: 0.8rem; color: var(--gold); display: block; margin-bottom: 5px;">Usuário</label>
+                <input type="text" id="usuarioAdmin" placeholder="Usuário" class="input-modern">
+                <label style="font-size: 0.8rem; color: var(--gold); display: block; margin-bottom: 5px; margin-top: 5px;">Senha</label>
+                <input type="password" id="senhaAdmin" placeholder="Senha" class="input-modern">
+                <button class="btn-gold" style="width: 100%; margin-top: 10px;" onclick="tentarLogarAdmin()">Entrar no Sistema</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRO/EDIÇÃO DE BARBEIRO -->
+    <div id="modalBarbeiro" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; margin-top: 15vh;">
+            <div class="modal-header">
+                <h3 id="tituloModalBarbeiro">Novo Barbeiro</h3>
+                <button class="close-btn" onclick="fecharModalBarbeiro()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="barbeiroEditIndex" value="-1">
+                <label style="font-size: 0.8rem; color: var(--gold);">Nome do Barbeiro</label>
+                <input type="text" id="inputNomeBarbeiro" placeholder="Ex: Carlos" class="input-modern">
+                <label style="font-size: 0.8rem; color: var(--gold);">URL da Foto (ou link de imagem)</label>
+                <input type="text" id="inputFotoBarbeiro" placeholder="https://exemplo.com/foto.jpg" class="input-modern">
+                <button class="btn-gold" style="width: 100%;" onclick="salvarBarbeiro()">Salvar Barbeiro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRO/EDIÇÃO DE SERVIÇO -->
+    <div id="modalServico" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; margin-top: 10vh;">
+            <div class="modal-header">
+                <h3 id="tituloModalServico">Novo Serviço</h3>
+                <button class="close-btn" onclick="fecharModalServico()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="servicoEditId" value="">
+                <label style="font-size: 0.8rem; color: var(--gold);">Categoria</label>
+                <select id="selectCatServico" class="input-modern">
+                    <option value="destaques">Mais Pedidos</option>
+                    <option value="combos">Combos</option>
+                    <option value="cabelo">Cabelo</option>
+                    <option value="estetica">Estética</option>
+                </select>
+                <label style="font-size: 0.8rem; color: var(--gold);">Nome do Serviço</label>
+                <input type="text" id="inputNomeServico" placeholder="Ex: Corte Degradê" class="input-modern">
+                <label style="font-size: 0.8rem; color: var(--gold);">Preço (R$)</label>
+                <input type="number" id="inputPrecoServico" placeholder="45" class="input-modern">
+                <label style="font-size: 0.8rem; color: var(--gold);">Tempo Duração</label>
+                <input type="text" id="inputTempoServico" placeholder="30min" class="input-modern">
+                <button class="btn-gold" style="width: 100%;" onclick="salvarServico()">Salvar Serviço</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PRODUTO / BEBIDA -->
+    <div id="modalProduto" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; margin-top: 15vh;">
+            <div class="modal-header">
+                <h3>Novo Produto / Bebida</h3>
+                <button class="close-btn" onclick="fecharModalProduto()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <label style="font-size: 0.8rem; color: var(--gold);">Nome do Item</label>
+                <input type="text" id="inputNomeProduto" placeholder="Ex: Pomada Modeladora / Cerveja Long Neck" class="input-modern">
+                <label style="font-size: 0.8rem; color: var(--gold);">Preço (R$)</label>
+                <input type="number" id="inputPrecoProduto" placeholder="35" class="input-modern">
+                <button class="btn-gold" style="width: 100%;" onclick="salvarProduto()">Cadastrar Produto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ OFICIAL (Com Rodapé Dourado e Símbolo Secreto no Canto Direito) -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Barbearia Dom Bigode. Todos os direitos reservados.</p>
+            <span class="secret-admin-trigger" onclick="abrirLoginAdmin()" title="Painel">©</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
