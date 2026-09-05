@@ -1,0 +1,185 @@
+:root {
+    --bg-color: #0a0a0a; 
+    --surface-color: #1a1a1a;
+    --gold: #e6b35c; 
+    --gold-dark: #b88a44;
+    --text-primary: #f5f5f5;
+    --text-secondary: #b3b3b3;
+    --border: #2a2a2a;
+    
+    --font-text: 'Montserrat', sans-serif;
+    --font-title: 'Playfair Display', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-text); }
+html { scroll-behavior: smooth; background-color: var(--bg-color); color: var(--text-primary); }
+body { padding-bottom: 0; position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+
+.bg-home {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background-image: linear-gradient(to bottom, rgba(10,10,10,0.85), rgba(10,10,10,0.95)), url('interior-barbearia.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.main-header {
+    display: flex; justify-content: center; align-items: center;
+    padding: 1.5rem 1rem; background-color: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid var(--gold-dark);
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+}
+.header-center-logo { text-align: center; }
+.logo-img-large { 
+    max-height: 75px; 
+    object-fit: contain; 
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.6)); 
+}
+.header-right-actions {
+    position: absolute; right: 1rem; display: flex; gap: 12px;
+}
+.icon-btn { color: var(--gold); font-size: 1.3rem; text-decoration: none; transition: 0.3s; }
+
+.modal-top-logo { text-align: center; margin-bottom: 10px; }
+.logo-img-modal { max-height: 50px; object-fit: contain; }
+
+.brand-separator {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 0; background-color: var(--surface-color);
+}
+.brand-separator hr { width: 30px; border: none; border-top: 1px solid var(--gold-dark); margin: 0 10px; }
+.brand-separator i { color: var(--gold); font-size: 0.9rem; transform: rotate(-45deg); }
+
+.main-tabs { display: flex; background-color: var(--surface-color); border-bottom: 1px solid var(--border); }
+.tab-btn { flex: 1; padding: 1rem; background: transparent; border: none; color: var(--text-secondary); font-size: 0.95rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+.tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
+.category-nav {
+    display: flex; overflow-x: auto; white-space: nowrap; padding: 1rem;
+    background-color: transparent; position: sticky; top: 103px; z-index: 10;
+}
+.category-nav::-webkit-scrollbar { display: none; }
+.cat-link { 
+    color: var(--text-primary); text-decoration: none; padding: 0.5rem 1.2rem; 
+    border-radius: 25px; margin-right: 12px; font-weight: 600; font-size: 0.85rem; 
+    background-color: var(--surface-color); border: 1px solid var(--border); 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+.cat-link.active { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--bg-color); border-color: transparent; }
+
+.services-container { padding: 0 1rem; flex: 1; }
+.category-section { margin-top: 2rem; scroll-margin-top: 160px; }
+.category-section h2 { 
+    color: var(--gold); font-size: 1.6rem; font-family: var(--font-title); 
+    font-style: italic; margin-bottom: 1.2rem; border-bottom: 1px dashed var(--gold-dark); 
+    padding-bottom: 0.5rem; 
+}
+
+.service-card {
+    background-color: rgba(30, 30, 30, 0.85);
+    border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer; backdrop-filter: blur(3px);
+}
+.service-card.combo { border-left: 4px solid var(--gold); }
+.service-info h3 { font-size: 1rem; margin-bottom: 0.3rem; font-weight: 600; }
+.service-info p { font-size: 0.8rem; color: var(--text-secondary); }
+.service-price { text-align: right; }
+.service-price span { display: block; color: var(--gold); font-weight: bold; font-size: 1.1rem;}
+.service-price small { color: var(--text-secondary); font-size: 0.8rem;}
+
+.input-modern {
+    width: 100%; padding: 1rem; margin-bottom: 1rem; margin-top: 0.5rem;
+    background-color: var(--bg-color); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text-primary); font-size: 1rem;
+}
+.input-modern:focus { outline: none; border-color: var(--gold); }
+
+.btn-gold {
+    padding: 1.2rem; 
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark)); 
+    color: #000; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600;
+    cursor: pointer; text-transform: uppercase; margin-top: 10px;
+    letter-spacing: 1px; box-shadow: 0 4px 15px rgba(230, 179, 92, 0.2);
+    transition: transform 0.2s;
+}
+.btn-gold:active { transform: scale(0.98); }
+
+.historico-container { padding: 1rem; flex: 1; }
+.login-box { background-color: var(--surface-color); padding: 2rem 1.5rem; border-radius: 12px; text-align: center; margin-top: 2rem; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.login-icon { font-size: 3rem; color: var(--gold); margin-bottom: 1rem; }
+.header-historico { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.btn-sair { background: transparent; color: #ff4c4c; border: 1px solid #ff4c4c; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121212; z-index: 100; overflow-y: auto; }
+.modal-content { padding: 1.5rem; max-width: 600px; margin: 0 auto; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.modal-header h3 { color: var(--gold); font-family: var(--font-title); font-size: 1.5rem; font-style: italic; }
+.close-btn { background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+.booking-step h4 { margin-bottom: 1rem; color: #eee; font-weight: 600; }
+
+.dates-grid, .times-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.date-btn, .time-btn { background-color: var(--surface-color); border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s;}
+.date-btn.active, .time-btn.active { background-color: var(--gold); color: var(--bg-color); border-color: var(--gold); font-weight: bold; }
+.date-btn span { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-top: 3px; }
+.date-btn.active span { color: var(--bg-color); }
+
+.professionals-grid { display: flex; gap: 15px; margin-bottom: 1.5rem; overflow-x: auto; }
+.prof-card { background-color: var(--surface-color); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; min-width: 110px; cursor: pointer; transition: 0.2s; }
+.prof-card img { border-radius: 50%; width: 65px; height: 65px; margin-bottom: 10px; object-fit: cover; border: 2px solid var(--gold-dark); transition: all 0.2s ease; }
+.prof-card.selected { border-color: var(--gold); box-shadow: 0 0 10px rgba(230, 179, 92, 0.4); transform: translateY(-2px); }
+.prof-card.selected img { border: 3px solid var(--gold); transform: scale(1.05); }
+
+.summary-card { background-color: var(--surface-color); padding: 1.2rem; border-radius: 8px; border-left: 4px solid var(--gold); margin-bottom: 1rem; }
+.summary-card p { margin-bottom: 0.6rem; font-size: 0.95rem; }
+.summary-card span { color: var(--gold); font-weight: bold; }
+
+/* Estilos do Painel Administrativo / SaaS */
+.admin-sub-tabs { display: flex; gap: 10px; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 5px; }
+.admin-sub-btn { background: var(--surface-color); border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+.admin-sub-btn.active { background: var(--gold); color: var(--bg-color); border-color: var(--gold); }
+
+.financial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 1.5rem; }
+.admin-barber-selector { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; }
+.admin-barber-pill { background: var(--surface-color); border: 1px solid var(--border); padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; min-width: 140px; }
+.admin-barber-pill.active { border-color: var(--gold); background: rgba(230, 179, 92, 0.1); }
+.admin-barber-pill img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+.btn-toggle-cancelados { background: transparent; border: 1px dashed var(--gold); color: var(--gold); width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.cancelados-content { background: rgba(255, 76, 76, 0.05); border: 1px solid rgba(255, 76, 76, 0.2); padding: 1rem; border-radius: 6px; }
+
+.admin-card-item { background: var(--surface-color); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Rodapé com Tom Dourado/Escuro Refinado e Símbolo no Canto Direito */
+.main-footer {
+    width: 100%;
+    padding: 1.2rem 1rem;
+    background: linear-gradient(135deg, #1f1b14, #121212);
+    border-top: 1px solid var(--gold-dark);
+    text-align: center;
+    margin-top: auto;
+}
+.footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+.footer-content p {
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+}
+.secret-admin-trigger {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(230, 179, 92, 0.2);
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+.secret-admin-trigger:hover { color: var(--gold); }
